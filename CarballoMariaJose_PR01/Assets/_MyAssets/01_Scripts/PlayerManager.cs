@@ -32,6 +32,7 @@ public class PlayerManager : MonoBehaviour
     private void FixedUpdate()
     {
         MovePlayer();
+      
     }
 
     void MovePlayer()
@@ -54,19 +55,21 @@ public class PlayerManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        
         if (other.CompareTag("suelo_fail"))
         {
             Morir();
+            print ("Fail");
         }
     }
 
     void Morir()
     {
         
-        rb.linearVelocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
+      rb.transform.position = posicionInicial;
+      rb.linearVelocity = Vector3.zero;
+      rb.angularVelocity = Vector3.zero;
 
-        transform.position = posicionInicial;
     }
     private void OnEnable()
     {
