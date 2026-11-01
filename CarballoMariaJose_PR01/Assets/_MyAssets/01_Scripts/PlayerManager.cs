@@ -7,7 +7,7 @@ public class PlayerManager : MonoBehaviour
     float moveZ;
     bool isAlive;
     Vector3 posicionInicial;
-    [SerializeField] private float moveSpeed =10f;
+    [SerializeField] private float moveSpeed =7f;
 
     inputAction inputActions;
 
@@ -31,8 +31,8 @@ public class PlayerManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        MovePlayer();
-      
+       MovePlayer();
+       
     }
 
     void MovePlayer()
@@ -41,6 +41,7 @@ public class PlayerManager : MonoBehaviour
 
         rb.AddForce(movement * moveSpeed);
     }
+
 
     private void Awake()
     {
@@ -60,7 +61,9 @@ public class PlayerManager : MonoBehaviour
         {
             Morir();
             print ("Fail");
+         
         }
+       
     }
 
     void Morir()
