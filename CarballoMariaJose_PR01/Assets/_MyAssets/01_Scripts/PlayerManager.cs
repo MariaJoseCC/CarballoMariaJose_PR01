@@ -52,6 +52,12 @@ public class PlayerManager : MonoBehaviour
 
         inputActions.Player.MoveX.performed += ctx => moveX = ctx.ReadValue<float>();
         inputActions.Player.MoveX.canceled += ctx => moveX = 0;
+
+        inputActions.Player.MoveZ1.performed += ctx => moveZ = ctx.ReadValue<float>();
+        inputActions.Player.MoveZ1.canceled += ctx => moveZ = 0;
+
+        inputActions.Player.MoveX1.performed += ctx => moveX = ctx.ReadValue<float>();
+        inputActions.Player.MoveX1.canceled += ctx => moveX = 0;
     }
 
     private void OnTriggerEnter(Collider other)

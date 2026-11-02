@@ -109,53 +109,27 @@ public partial class @inputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""MoveX1"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""d2e70cb6-eff6-44ce-9314-0faac176c205"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MoveZ1"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""83f74815-f319-441d-ad18-7850c91ba667"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
-                {
-                    ""name"": """",
-                    ""id"": ""f5e18484-0293-4f73-9c3c-3c773b2631a1"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""MoveZ"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""1D Axis"",
-                    ""id"": ""1d40c3d7-64bd-4e6c-871b-87eed88b4aef"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""MoveZ"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""c8a01822-1cca-4680-94d1-53e761fe02b4"",
-                    ""path"": ""<Gamepad>/leftStick/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""MoveZ"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""7277db12-2e7f-41d7-9ba2-c2abc02ef016"",
-                    ""path"": ""<Gamepad>/leftStick/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""MoveZ"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
                 {
                     ""name"": ""1D Axis"",
                     ""id"": ""3e5adb7b-e3a9-4a6a-9879-64e63ae5a365"",
@@ -186,50 +160,6 @@ public partial class @inputAction: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""MoveZ"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""d04bbafb-7799-4cb0-96a6-fe1ef6a34255"",
-                    ""path"": """",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""MoveX"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""1D Axis"",
-                    ""id"": ""a30c9f3e-6116-4f56-b39d-52229c6d8d87"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""MoveX"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""3dbf85b6-c82e-4c99-923f-0e948ac2d6b7"",
-                    ""path"": ""<Gamepad>/leftStick/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""MoveX"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""557287f2-8acd-4c92-8f39-c5471c3ac0ef"",
-                    ""path"": ""<Gamepad>/leftStick/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""MoveX"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
@@ -265,6 +195,28 @@ public partial class @inputAction: IInputActionCollection2, IDisposable
                     ""action"": ""MoveX"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""72d17950-73b6-41e1-a779-00b647cab50e"",
+                    ""path"": ""<Gamepad>/rightStick/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveX1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8c2cd23f-738d-4323-be20-8afec887c0a7"",
+                    ""path"": ""<Gamepad>/rightStick/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MoveZ1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -275,6 +227,8 @@ public partial class @inputAction: IInputActionCollection2, IDisposable
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_MoveZ = m_Player.FindAction("MoveZ", throwIfNotFound: true);
         m_Player_MoveX = m_Player.FindAction("MoveX", throwIfNotFound: true);
+        m_Player_MoveX1 = m_Player.FindAction("MoveX1", throwIfNotFound: true);
+        m_Player_MoveZ1 = m_Player.FindAction("MoveZ1", throwIfNotFound: true);
     }
 
     ~@inputAction()
@@ -357,6 +311,8 @@ public partial class @inputAction: IInputActionCollection2, IDisposable
     private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
     private readonly InputAction m_Player_MoveZ;
     private readonly InputAction m_Player_MoveX;
+    private readonly InputAction m_Player_MoveX1;
+    private readonly InputAction m_Player_MoveZ1;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -376,6 +332,14 @@ public partial class @inputAction: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Player/MoveX".
         /// </summary>
         public InputAction @MoveX => m_Wrapper.m_Player_MoveX;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/MoveX1".
+        /// </summary>
+        public InputAction @MoveX1 => m_Wrapper.m_Player_MoveX1;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/MoveZ1".
+        /// </summary>
+        public InputAction @MoveZ1 => m_Wrapper.m_Player_MoveZ1;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -408,6 +372,12 @@ public partial class @inputAction: IInputActionCollection2, IDisposable
             @MoveX.started += instance.OnMoveX;
             @MoveX.performed += instance.OnMoveX;
             @MoveX.canceled += instance.OnMoveX;
+            @MoveX1.started += instance.OnMoveX1;
+            @MoveX1.performed += instance.OnMoveX1;
+            @MoveX1.canceled += instance.OnMoveX1;
+            @MoveZ1.started += instance.OnMoveZ1;
+            @MoveZ1.performed += instance.OnMoveZ1;
+            @MoveZ1.canceled += instance.OnMoveZ1;
         }
 
         /// <summary>
@@ -425,6 +395,12 @@ public partial class @inputAction: IInputActionCollection2, IDisposable
             @MoveX.started -= instance.OnMoveX;
             @MoveX.performed -= instance.OnMoveX;
             @MoveX.canceled -= instance.OnMoveX;
+            @MoveX1.started -= instance.OnMoveX1;
+            @MoveX1.performed -= instance.OnMoveX1;
+            @MoveX1.canceled -= instance.OnMoveX1;
+            @MoveZ1.started -= instance.OnMoveZ1;
+            @MoveZ1.performed -= instance.OnMoveZ1;
+            @MoveZ1.canceled -= instance.OnMoveZ1;
         }
 
         /// <summary>
@@ -479,5 +455,19 @@ public partial class @inputAction: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMoveX(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "MoveX1" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnMoveX1(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "MoveZ1" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnMoveZ1(InputAction.CallbackContext context);
     }
 }
