@@ -9,6 +9,11 @@ public class PlayerManager : MonoBehaviour
     Vector3 posicionInicial;
     [SerializeField] private float moveSpeed =7f;
 
+    float tiempoLimite = 100f;
+    float tiempoRestante;
+    bool haGanado = false;
+    int ultimoSegundo;
+
     inputAction inputActions;
 
     private Rigidbody rb;
@@ -20,13 +25,15 @@ public class PlayerManager : MonoBehaviour
 
         posicionInicial = new Vector3(-6f, 0.5f, -24f);
         transform.position = posicionInicial;
-
+        tiempoRestante = tiempoLimite;
+        isAlive = true;
+        ultimoSegundo = -1;
     }
 
     // Update is called once per frame
     void Update()
     {
-
+        Contador();
     }
 
     private void FixedUpdate()
@@ -42,7 +49,30 @@ public class PlayerManager : MonoBehaviour
         rb.AddForce(movement * moveSpeed);
     }
 
+    void Contador()
+    {
+        {
+            if (haGanado || !isAlive)
+                return;
 
+            tiempoRestante -= Time.deltaTime;
+
+            int segundos = Mathf.CeilToInt(tiempoRestante);
+
+            if (segundos != ultimoSegundo)
+            {
+                print("Tiempo restante: " + segundos);
+                ultimoSegundo = segundos;
+            }
+
+            if (tiempoRestante <= 0)
+            {
+                tiempoRestante = 0;
+                print("Fail");
+                Morir();
+            }
+        }
+    }
     private void Awake()
     {
         inputActions = new inputAction();
@@ -62,24 +92,34 @@ public class PlayerManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        
-        if (other.CompareTag("suelo_fail"))
         {
             Morir();
             print ("Fail");
-         
+
+            if (other.CompareTag("Corona"))
+            {
+                haGanado = true;
+                print("Win!");
+            }
         }
        
     }
 
     void Morir()
     {
-        
-      rb.transform.position = posicionInicial;
-      rb.linearVelocity = Vector3.zero;
-      rb.angularVelocity = Vector3.zero;
+        isAlive = false;
 
+        rb.transform.position = posicionInicial;
+        rb.linearVelocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+
+        tiempoRestante = tiempoLimite;
+        ultimoSegundo = -1;
+
+        isAlive = true;
     }
+
+
     private void OnEnable()
     {
         inputActions.Enable();
