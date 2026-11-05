@@ -1,5 +1,9 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
+using TMPro;
+using UnityEngine.SocialPlatforms;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -13,6 +17,12 @@ public class PlayerManager : MonoBehaviour
     float tiempoRestante;
     bool haGanado = false;
     int ultimoSegundo;
+
+    
+
+    [SerializeField] private TMP_Text textoTiempo;
+    [SerializeField] private TMP_Text textoDistancia;
+    [SerializeField] private Transform meta;
 
     inputAction inputActions;
 
@@ -34,6 +44,7 @@ public class PlayerManager : MonoBehaviour
     void Update()
     {
         Contador();
+        ContadorDistancia();
     }
 
     private void FixedUpdate()
@@ -56,8 +67,9 @@ public class PlayerManager : MonoBehaviour
                 return;
 
             tiempoRestante -= Time.deltaTime;
-
             int segundos = Mathf.CeilToInt(tiempoRestante);
+            textoTiempo.text = "Tiempo: " + segundos + " s";
+
 
             if (segundos != ultimoSegundo)
             {
@@ -73,6 +85,18 @@ public class PlayerManager : MonoBehaviour
             }
         }
     }
+
+    
+  void ContadorDistancia()
+    {
+        if (haGanado || !isAlive)
+            return;
+
+        float distancia = Vector3.Distance(transform.position, meta.position);
+
+        textoDistancia.text = "Meta: " + distancia.ToString("F2") + " m";
+    }
+
     private void Awake()
     {
         inputActions = new inputAction();
@@ -92,33 +116,32 @@ public class PlayerManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (other.CompareTag("Corona"))
         {
-            Morir();
-            print ("Fail");
-
-            if (other.CompareTag("Corona"))
-            {
-                haGanado = true;
-                print("Win!");
-            }
+            haGanado = true;
+            print("Win!");
+            VolverAlMenu();
         }
-       
+        else
+        {
+            print("Fail");
+            Morir();
+        }
     }
 
     void Morir()
-    {
-        isAlive = false;
+    {        
+         if (!isAlive)
+          return;
 
-        rb.transform.position = posicionInicial;
-        rb.linearVelocity = Vector3.zero;
-        rb.angularVelocity = Vector3.zero;
+          isAlive = false;
 
-        tiempoRestante = tiempoLimite;
-        ultimoSegundo = -1;
-
-        isAlive = true;
+          VolverAlMenu();
     }
-
+    void VolverAlMenu()
+    {
+        SceneManager.LoadScene("Escena_inicial");
+    }
 
     private void OnEnable()
     {
