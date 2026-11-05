@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 using static TMPro.SpriteAssetUtilities.TexturePacker_JsonArray;
 using TMPro;
 using UnityEngine.SocialPlatforms;
+using System.Collections;
 
 public class PlayerManager : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class PlayerManager : MonoBehaviour
     Vector3 posicionInicial;
     [SerializeField] private float moveSpeed =7f;
 
-    float tiempoLimite = 100f;
+    float tiempoLimite = 50f;
     float tiempoRestante;
     bool haGanado = false;
     int ultimoSegundo;
@@ -23,6 +24,7 @@ public class PlayerManager : MonoBehaviour
     [SerializeField] private TMP_Text textoTiempo;
     [SerializeField] private TMP_Text textoDistancia;
     [SerializeField] private Transform meta;
+    [SerializeField] private TMP_Text textoResultado;
 
     inputAction inputActions;
 
@@ -116,30 +118,42 @@ public class PlayerManager : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+      
+        if (!isAlive)
+            return;
+
         if (other.CompareTag("Corona"))
         {
             haGanado = true;
-            print("Win!");
-            VolverAlMenu();
+            isAlive = false;
+
+            textoResultado.text = "WIN!";
+
+            StartCoroutine(EsperarYVolverAlMenu());
         }
         else
         {
-            print("Fail");
             Morir();
         }
     }
 
+
     void Morir()
-    {        
-         if (!isAlive)
-          return;
-
-          isAlive = false;
-
-          VolverAlMenu();
-    }
-    void VolverAlMenu()
     {
+        if (!isAlive)
+            return;
+
+        isAlive = false;
+
+        textoResultado.text = "FAIL!";
+
+        StartCoroutine(EsperarYVolverAlMenu());
+    }
+   
+    IEnumerator EsperarYVolverAlMenu()
+    {
+        yield return new WaitForSeconds(2f);
+
         SceneManager.LoadScene("Escena_inicial");
     }
 
