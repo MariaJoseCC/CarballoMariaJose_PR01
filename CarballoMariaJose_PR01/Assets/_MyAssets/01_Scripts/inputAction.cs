@@ -219,6 +219,120 @@ public partial class @inputAction: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""Plataformas"",
+            ""id"": ""c5aa6f7a-b370-4fe7-870a-eac117d59768"",
+            ""actions"": [
+                {
+                    ""name"": ""Plataforma1"",
+                    ""type"": ""Value"",
+                    ""id"": ""32e1e0dd-d10c-46a9-8be7-2e7a73a911ab"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Plataforma2"",
+                    ""type"": ""Value"",
+                    ""id"": ""09f7676c-82ec-4799-be65-be83ed12ba61"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""86e2b6af-a50f-48cf-9427-787a11b1d850"",
+                    ""path"": ""<Gamepad>/leftStick/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Plataforma1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""b6a3827c-ddbe-4458-ac7b-418a9bff4686"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Plataforma1"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""5edd7e59-abaa-4374-85e2-9968df076824"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Plataforma1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""25723fb2-38a2-46c8-bd3f-a2bb62ee95f7"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Plataforma1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a31bc69b-ad8d-45fa-aea1-ef9e980ef5fe"",
+                    ""path"": ""<Gamepad>/rightStick/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Plataforma2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""69742a8e-6d46-4d6e-968f-f5a60f6cdeb7"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Plataforma2"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""1dc3203a-c8fb-4097-bc80-8f10ea87a805"",
+                    ""path"": ""<Keyboard>/j"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Plataforma2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""21ea108e-a0e8-4c2e-b673-15a464c15eb8"",
+                    ""path"": ""<Keyboard>/l"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Plataforma2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -229,11 +343,16 @@ public partial class @inputAction: IInputActionCollection2, IDisposable
         m_Player_MoveX = m_Player.FindAction("MoveX", throwIfNotFound: true);
         m_Player_MoveX1 = m_Player.FindAction("MoveX1", throwIfNotFound: true);
         m_Player_MoveZ1 = m_Player.FindAction("MoveZ1", throwIfNotFound: true);
+        // Plataformas
+        m_Plataformas = asset.FindActionMap("Plataformas", throwIfNotFound: true);
+        m_Plataformas_Plataforma1 = m_Plataformas.FindAction("Plataforma1", throwIfNotFound: true);
+        m_Plataformas_Plataforma2 = m_Plataformas.FindAction("Plataforma2", throwIfNotFound: true);
     }
 
     ~@inputAction()
     {
         UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, inputAction.Player.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_Plataformas.enabled, "This will cause a leak and performance issues, inputAction.Plataformas.Disable() has not been called.");
     }
 
     /// <summary>
@@ -434,6 +553,113 @@ public partial class @inputAction: IInputActionCollection2, IDisposable
     /// Provides a new <see cref="PlayerActions" /> instance referencing this action map.
     /// </summary>
     public PlayerActions @Player => new PlayerActions(this);
+
+    // Plataformas
+    private readonly InputActionMap m_Plataformas;
+    private List<IPlataformasActions> m_PlataformasActionsCallbackInterfaces = new List<IPlataformasActions>();
+    private readonly InputAction m_Plataformas_Plataforma1;
+    private readonly InputAction m_Plataformas_Plataforma2;
+    /// <summary>
+    /// Provides access to input actions defined in input action map "Plataformas".
+    /// </summary>
+    public struct PlataformasActions
+    {
+        private @inputAction m_Wrapper;
+
+        /// <summary>
+        /// Construct a new instance of the input action map wrapper class.
+        /// </summary>
+        public PlataformasActions(@inputAction wrapper) { m_Wrapper = wrapper; }
+        /// <summary>
+        /// Provides access to the underlying input action "Plataformas/Plataforma1".
+        /// </summary>
+        public InputAction @Plataforma1 => m_Wrapper.m_Plataformas_Plataforma1;
+        /// <summary>
+        /// Provides access to the underlying input action "Plataformas/Plataforma2".
+        /// </summary>
+        public InputAction @Plataforma2 => m_Wrapper.m_Plataformas_Plataforma2;
+        /// <summary>
+        /// Provides access to the underlying input action map instance.
+        /// </summary>
+        public InputActionMap Get() { return m_Wrapper.m_Plataformas; }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Enable()" />
+        public void Enable() { Get().Enable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.Disable()" />
+        public void Disable() { Get().Disable(); }
+        /// <inheritdoc cref="UnityEngine.InputSystem.InputActionMap.enabled" />
+        public bool enabled => Get().enabled;
+        /// <summary>
+        /// Implicitly converts an <see ref="PlataformasActions" /> to an <see ref="InputActionMap" /> instance.
+        /// </summary>
+        public static implicit operator InputActionMap(PlataformasActions set) { return set.Get(); }
+        /// <summary>
+        /// Adds <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <param name="instance">Callback instance.</param>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c> or <paramref name="instance"/> have already been added this method does nothing.
+        /// </remarks>
+        /// <seealso cref="PlataformasActions" />
+        public void AddCallbacks(IPlataformasActions instance)
+        {
+            if (instance == null || m_Wrapper.m_PlataformasActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_PlataformasActionsCallbackInterfaces.Add(instance);
+            @Plataforma1.started += instance.OnPlataforma1;
+            @Plataforma1.performed += instance.OnPlataforma1;
+            @Plataforma1.canceled += instance.OnPlataforma1;
+            @Plataforma2.started += instance.OnPlataforma2;
+            @Plataforma2.performed += instance.OnPlataforma2;
+            @Plataforma2.canceled += instance.OnPlataforma2;
+        }
+
+        /// <summary>
+        /// Removes <see cref="InputAction.started"/>, <see cref="InputAction.performed"/> and <see cref="InputAction.canceled"/> callbacks provided via <param cref="instance" /> on all input actions contained in this map.
+        /// </summary>
+        /// <remarks>
+        /// Calling this method when <paramref name="instance" /> have not previously been registered has no side-effects.
+        /// </remarks>
+        /// <seealso cref="PlataformasActions" />
+        private void UnregisterCallbacks(IPlataformasActions instance)
+        {
+            @Plataforma1.started -= instance.OnPlataforma1;
+            @Plataforma1.performed -= instance.OnPlataforma1;
+            @Plataforma1.canceled -= instance.OnPlataforma1;
+            @Plataforma2.started -= instance.OnPlataforma2;
+            @Plataforma2.performed -= instance.OnPlataforma2;
+            @Plataforma2.canceled -= instance.OnPlataforma2;
+        }
+
+        /// <summary>
+        /// Unregisters <param cref="instance" /> and unregisters all input action callbacks via <see cref="PlataformasActions.UnregisterCallbacks(IPlataformasActions)" />.
+        /// </summary>
+        /// <seealso cref="PlataformasActions.UnregisterCallbacks(IPlataformasActions)" />
+        public void RemoveCallbacks(IPlataformasActions instance)
+        {
+            if (m_Wrapper.m_PlataformasActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        /// <summary>
+        /// Replaces all existing callback instances and previously registered input action callbacks associated with them with callbacks provided via <param cref="instance" />.
+        /// </summary>
+        /// <remarks>
+        /// If <paramref name="instance" /> is <c>null</c>, calling this method will only unregister all existing callbacks but not register any new callbacks.
+        /// </remarks>
+        /// <seealso cref="PlataformasActions.AddCallbacks(IPlataformasActions)" />
+        /// <seealso cref="PlataformasActions.RemoveCallbacks(IPlataformasActions)" />
+        /// <seealso cref="PlataformasActions.UnregisterCallbacks(IPlataformasActions)" />
+        public void SetCallbacks(IPlataformasActions instance)
+        {
+            foreach (var item in m_Wrapper.m_PlataformasActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_PlataformasActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    /// <summary>
+    /// Provides a new <see cref="PlataformasActions" /> instance referencing this action map.
+    /// </summary>
+    public PlataformasActions @Plataformas => new PlataformasActions(this);
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Player" which allows adding and removing callbacks.
     /// </summary>
@@ -469,5 +695,27 @@ public partial class @inputAction: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnMoveZ1(InputAction.CallbackContext context);
+    }
+    /// <summary>
+    /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Plataformas" which allows adding and removing callbacks.
+    /// </summary>
+    /// <seealso cref="PlataformasActions.AddCallbacks(IPlataformasActions)" />
+    /// <seealso cref="PlataformasActions.RemoveCallbacks(IPlataformasActions)" />
+    public interface IPlataformasActions
+    {
+        /// <summary>
+        /// Method invoked when associated input action "Plataforma1" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPlataforma1(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Plataforma2" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnPlataforma2(InputAction.CallbackContext context);
     }
 }
