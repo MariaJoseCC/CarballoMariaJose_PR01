@@ -51,13 +51,13 @@ public class Game2Manager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        // Grupo 1: filas 1, 3 y 5
+        
         foreach (Rigidbody rb in rb1)
         {
             rb.AddTorque(Vector3.forward * -moveL * fuerza);
         }
 
-        // Grupo 2: filas 2 y 4
+        
         foreach (Rigidbody rb in rb2)
         {
             rb.AddTorque(Vector3.forward * -moveR * fuerza);
