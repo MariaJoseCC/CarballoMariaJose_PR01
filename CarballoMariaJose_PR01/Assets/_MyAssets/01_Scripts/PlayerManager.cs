@@ -64,7 +64,7 @@ public class PlayerManager : MonoBehaviour
 
     void Contador()
     {
-        {
+        
             if (haGanado || !isAlive)
                 return;
 
@@ -85,7 +85,7 @@ public class PlayerManager : MonoBehaviour
                 print("Fail");
                 Morir();
             }
-        }
+        
     }
 
     
