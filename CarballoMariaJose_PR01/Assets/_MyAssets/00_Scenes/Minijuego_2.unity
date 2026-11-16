@@ -3208,7 +3208,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: b24175f8be0060346bd7f5ab9768e8a1, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3727,7 +3727,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2116085813007067022, guid: 3a77a1ded84f1c24287912f529a6eb48, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.6
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 2116085813007067022, guid: 3a77a1ded84f1c24287912f529a6eb48, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3765,6 +3765,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4291177828517754967, guid: 3a77a1ded84f1c24287912f529a6eb48, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: cccab135453cc62448c7e9756911c81d, type: 2}
     - target: {fileID: 8891583845259905139, guid: 3a77a1ded84f1c24287912f529a6eb48, type: 3}
       propertyPath: m_Name
       value: plataforma_baja
