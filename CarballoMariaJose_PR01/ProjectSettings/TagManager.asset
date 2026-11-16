@@ -8,6 +8,7 @@ TagManager:
   - Corona
   - plat2
   - plat1
+  - plat_win
   layers:
   - Default
   - TransparentFX

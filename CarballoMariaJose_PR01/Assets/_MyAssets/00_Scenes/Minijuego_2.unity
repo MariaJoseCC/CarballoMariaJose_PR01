@@ -3773,6 +3773,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: plataforma_baja
       objectReference: {fileID: 0}
+    - target: {fileID: 8891583845259905139, guid: 3a77a1ded84f1c24287912f529a6eb48, type: 3}
+      propertyPath: m_TagString
+      value: plat_win
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
