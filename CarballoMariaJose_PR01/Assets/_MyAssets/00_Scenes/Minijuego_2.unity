@@ -3374,6 +3374,26 @@ Transform:
   - {fileID: 364051952}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1536150666 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8891583845259905139, guid: 3a77a1ded84f1c24287912f529a6eb48, type: 3}
+  m_PrefabInstance: {fileID: 6161042347845340565}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1536150671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1536150666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09acbfdc18a01b24f9ba7c3cdc38a9aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlataformaMovimiento
+  limiteIzquierdo: -77
+  limiteDerecho: 77
+  velocidad: 35
 --- !u!1001 &1571173303
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5063,7 +5083,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8891583845259905139, guid: 3a77a1ded84f1c24287912f529a6eb48, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1536150671}
   m_SourcePrefab: {fileID: 100100000, guid: 3a77a1ded84f1c24287912f529a6eb48, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

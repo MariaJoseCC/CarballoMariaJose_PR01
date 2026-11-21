@@ -13,9 +13,9 @@ public class BolaJuego2 : MonoBehaviour
     public TMP_Text textoAciertos;
 
     [Header("Limites del escenario")]
-    public float limiteIzquierdo = -77f;
-    public float limiteDerecho = 77f;
-    public float limiteInferior = -46f;
+    float limiteIzquierdo = -77f;
+    float limiteDerecho = 77f;
+    float limiteInferior = -46f;
 
     [Header("Reaparicion")]
     float alturaReaparicion = 35f;
@@ -27,7 +27,7 @@ public class BolaJuego2 : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
 
-        ActualizarInterfaz();
+        ActualizarContadores();
         Reaparecer();
     }
 
@@ -36,43 +36,39 @@ public class BolaJuego2 : MonoBehaviour
         if (reapareciendo)
             return;
 
-        // Comprobar si la pelota ha caido por debajo del limite
+        // Para comprobar si la pelota ha caido por debajo del limite en Y para que pierda
         if (rb.position.y <= limiteInferior)
         {
             PerderVida();
             return;
         }
 
-        // Mantener la pelota dentro de los limites horizontales
+        // Para que la pelota no se vaya fuera de los limites horizontales
         Vector3 posicion = rb.position;
 
-        posicion.x = Mathf.Clamp(
-            posicion.x,
-            limiteIzquierdo,
-            limiteDerecho
-        );
+        posicion.x = Mathf.Clamp(posicion.x,limiteIzquierdo,limiteDerecho);
 
         rb.position = posicion;
     }
 
-    // Detectar contacto mediante colision normal
+
     void OnCollisionEnter(Collision collision)
     {
-        ComprobarPlataforma(collision.collider.transform);
+        PlataformaWin(collision.collider.transform);
     }
 
-    // Detectar contacto si el Collider tiene Is Trigger activado
+
     void OnTriggerEnter(Collider other)
     {
-        ComprobarPlataforma(other.transform);
+        PlataformaWin(other.transform);
     }
 
-    void ComprobarPlataforma(Transform objeto)
+    void PlataformaWin(Transform objeto)
     {
         if (reapareciendo)
             return;
 
-        // Buscar la etiqueta en el objeto y sus padres
+
         Transform actual = objeto;
 
         while (actual != null)
@@ -81,7 +77,7 @@ public class BolaJuego2 : MonoBehaviour
             {
                 aciertos++;
 
-                ActualizarInterfaz();
+                ActualizarContadores();
 
                 Reaparecer();
 
@@ -101,7 +97,7 @@ public class BolaJuego2 : MonoBehaviour
 
         vidas--;
 
-        ActualizarInterfaz();
+        ActualizarContadores();
 
         if (vidas <= 0)
         {
@@ -117,18 +113,11 @@ public class BolaJuego2 : MonoBehaviour
     {
         reapareciendo = true;
 
-        // Elegir una posicion X aleatoria dentro de los limites
-        float moveX = Random.Range(
-            limiteIzquierdo,
-            limiteDerecho
-        );
+        // Para que la bola aparezca en una posición aleatoria cada vez que reaparece pero dentro de los limites en X
+        float moveX = Random.Range(limiteIzquierdo,limiteDerecho);
 
-        // Establecer la nueva posicion X e Y
-        Vector3 nuevaPosicion = new Vector3(
-            moveX,
-            alturaReaparicion,
-            rb.position.z
-        );
+        // Nueva posicion X e Y
+        Vector3 nuevaPosicion = new Vector3(moveX,alturaReaparicion,rb.position.z);
 
         rb.position = nuevaPosicion;
 
@@ -136,13 +125,13 @@ public class BolaJuego2 : MonoBehaviour
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
 
-        // Sincronizar la posicion del objeto
+       
         transform.position = nuevaPosicion;
 
         reapareciendo = false;
     }
 
-    void ActualizarInterfaz()
+    void ActualizarContadores()
     {
         if (textoVidas != null)
             textoVidas.text = "Vidas: " + vidas;
