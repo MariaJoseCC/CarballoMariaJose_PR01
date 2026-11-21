@@ -1,10 +1,10 @@
+
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class BolaJuego2 : MonoBehaviour
 {
-   
     [Header("Vidas y puntuacion")]
     public int vidas = 3;
     public int aciertos = 0;
@@ -18,9 +18,11 @@ public class BolaJuego2 : MonoBehaviour
     public float limiteInferior = -46f;
 
     [Header("Reaparicion")]
-    public float alturaReaparicion = 5f;
+    float alturaReaparicion = 35f;
 
     private Rigidbody rb;
+    private bool reapareciendo = false;
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -31,42 +33,78 @@ public class BolaJuego2 : MonoBehaviour
 
     void FixedUpdate()
     {
-        // Comprobar si la pelota sale por abajo
-        if (rb.position.y < limiteInferior)
+        if (reapareciendo)
+            return;
+
+        // Comprobar si la pelota ha caido por debajo del limite
+        if (rb.position.y <= limiteInferior)
         {
             PerderVida();
+            return;
         }
 
-        // Limitar el movimiento horizontal
+        // Mantener la pelota dentro de los limites horizontales
         Vector3 posicion = rb.position;
 
-        posicion.x = Mathf.Clamp(posicion.x,limiteIzquierdo,limiteDerecho);
+        posicion.x = Mathf.Clamp(
+            posicion.x,
+            limiteIzquierdo,
+            limiteDerecho
+        );
 
         rb.position = posicion;
     }
 
+    // Detectar contacto mediante colision normal
     void OnCollisionEnter(Collision collision)
     {
-        // Comprobar si toca una plataforma
-        if (collision.gameObject.CompareTag("plat_win"))
+        ComprobarPlataforma(collision.collider.transform);
+    }
+
+    // Detectar contacto si el Collider tiene Is Trigger activado
+    void OnTriggerEnter(Collider other)
+    {
+        ComprobarPlataforma(other.transform);
+    }
+
+    void ComprobarPlataforma(Transform objeto)
+    {
+        if (reapareciendo)
+            return;
+
+        // Buscar la etiqueta en el objeto y sus padres
+        Transform actual = objeto;
+
+        while (actual != null)
         {
-            aciertos++;
+            if (actual.CompareTag("plat_win"))
+            {
+                aciertos++;
 
-            ActualizarInterfaz();
+                ActualizarInterfaz();
 
-            Reaparecer();
+                Reaparecer();
+
+                return;
+            }
+
+            actual = actual.parent;
         }
     }
 
     void PerderVida()
     {
+        if (reapareciendo)
+            return;
+
+        reapareciendo = true;
+
         vidas--;
 
         ActualizarInterfaz();
 
         if (vidas <= 0)
         {
-           
             SceneManager.LoadScene("Escena_Inicial");
         }
         else
@@ -77,21 +115,39 @@ public class BolaJuego2 : MonoBehaviour
 
     void Reaparecer()
     {
-        float moveX = Random.Range(limiteIzquierdo,limiteDerecho);
+        reapareciendo = true;
 
-        Vector3 nuevaPosicion = new Vector3(moveX,alturaReaparicion,rb.position.z);
+        // Elegir una posicion X aleatoria dentro de los limites
+        float moveX = Random.Range(
+            limiteIzquierdo,
+            limiteDerecho
+        );
 
-        // Reiniciar posicion y velocidad
+        // Establecer la nueva posicion X e Y
+        Vector3 nuevaPosicion = new Vector3(
+            moveX,
+            alturaReaparicion,
+            rb.position.z
+        );
+
         rb.position = nuevaPosicion;
 
+        // Reiniciar la velocidad para que no siga cayendo
         rb.linearVelocity = Vector3.zero;
         rb.angularVelocity = Vector3.zero;
+
+        // Sincronizar la posicion del objeto
+        transform.position = nuevaPosicion;
+
+        reapareciendo = false;
     }
 
     void ActualizarInterfaz()
     {
-        textoVidas.text = "Vidas: " + vidas;
-        textoAciertos.text = "Aciertos: " + aciertos;
+        if (textoVidas != null)
+            textoVidas.text = "Vidas: " + vidas;
+
+        if (textoAciertos != null)
+            textoAciertos.text = "Aciertos: " + aciertos;
     }
 }
-
